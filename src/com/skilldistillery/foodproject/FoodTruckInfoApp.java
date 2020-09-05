@@ -6,29 +6,29 @@ public class FoodTruckInfoApp {
 	public static void main(String[] args) {
 		FoodTruckInfoApp foodTrucks = new FoodTruckInfoApp();
 		FoodTruck[] trucks = new FoodTruck[5];
+		int numOfTrucks = 0;
 		Scanner kb = new Scanner(System.in);
 		
-		foodTrucks.printMenu(kb, trucks);
+		foodTrucks.printMenu(kb, trucks, numOfTrucks);
 	
 	
 	}
 
-	private void addTruck(Scanner kb, FoodTruck[] trucks) {
-		int counter = 0;
-		trucks[counter] = new FoodTruck();
-		trucks[counter].setTruckID(counter);
-		if (counter < 5) {
+	private int addTruck(Scanner kb, FoodTruck[] trucks, int numOfTrucks) {
+		if (numOfTrucks < 5) {
+		trucks[numOfTrucks] = new FoodTruck();
+		trucks[numOfTrucks].setTruckID(numOfTrucks);
 		System.out.println("What is the name of the truck?");
-		trucks[counter].setName(kb.nextLine());
+		trucks[numOfTrucks].setName(kb.next());
 		System.out.println("What kind of food does it serve?");
-		trucks[counter].setFoodType(kb.nextLine());
+		trucks[numOfTrucks].setFoodType(kb.next());
 		System.out.println("How would you rate it?");
-		trucks[counter].setRating(kb.nextDouble());
-		counter++;
+		trucks[numOfTrucks].setRating(kb.nextDouble());
+		numOfTrucks++;
 		} else {
 			System.out.println("The truck list is full.");
 		}
-		
+		return numOfTrucks;
 	}
 
 	private void averageTrucks() {
@@ -44,19 +44,19 @@ public class FoodTruckInfoApp {
 	private void listTrucks(FoodTruck[] trucks) {
 		for (FoodTruck foodTruck : trucks) {
 			if (foodTruck != null){
-				System.out.println(foodTruck.getName() + " serves " + 
+				System.out.println(foodTruck.getTruckID()+1 +": " + foodTruck.getName() + " serves " + 
 			foodTruck.getFoodType() + " and has a rating of " + foodTruck.getRating());
 			}
 		}
 	}
 
-	private void printMenu(Scanner kb, FoodTruck[] trucks) {
+	private void printMenu(Scanner kb, FoodTruck[] trucks, int numOfTrucks) {
 		boolean run = true;
 		while (run) {
-			System.out.println("What would you like to do?\nadd");
+			System.out.println("What would you like to do?\n1 = add");
 			int selection = kb.nextInt();
 			switch (selection) {
-			case 1: addTruck(kb, trucks);
+			case 1: numOfTrucks = addTruck(kb, trucks, numOfTrucks);
 			break;
 			case 2:
 				averageTrucks();
