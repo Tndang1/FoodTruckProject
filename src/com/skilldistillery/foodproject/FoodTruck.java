@@ -17,6 +17,12 @@ public class FoodTruck {
 	public FoodTruck() {
 		
 	}
+	
+	public String toString() {
+		String info = getTruckID() + 1 + ": " + getName() + " serves "
+				+ getFoodType() + " and has a rating of " + getRating();
+		return info;
+	}
 
 	public int getTruckID() {
 	return truckID;
