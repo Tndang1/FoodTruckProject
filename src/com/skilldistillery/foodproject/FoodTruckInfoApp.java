@@ -3,35 +3,44 @@ package com.skilldistillery.foodproject;
 import java.util.Scanner;
 
 public class FoodTruckInfoApp {
-	private int numOfTrucks = 0;
-	
-	
+	private static int numOfTrucks = 0;
+
 	public static void main(String[] args) {
 		FoodTruckInfoApp foodTrucks = new FoodTruckInfoApp();
 		FoodTruck[] trucks = new FoodTruck[5];
 		Scanner kb = new Scanner(System.in);
 
 		foodTrucks.printMenu(kb, trucks);
+		kb.close();
 
 	}
 
 	private void addTruck(Scanner kb, FoodTruck[] trucks) {
-		if (numOfTrucks < 5) {
-			System.out.println("What is the name of the truck?");
-			String name = kb.next();
-			System.out.println("What kind of food does it serve?");
-			String food = kb.next();
-			System.out.println("How would you rate it?");
-			int rate = kb.nextInt();
-			trucks[numOfTrucks] = new FoodTruck(numOfTrucks, name, food, rate);
-			numOfTrucks++;
-		} else {
-			System.out.println("The truck list is full.");
+		boolean run = true;
+		while (run) {
+			if (numOfTrucks >= 5) {
+				System.out.println("The truck list is full.");
+				run = false;
+				break;
+			} else {
+				System.out.println("What is the name of the truck? (Enter \"Quit\" to quit.");
+				String name = kb.next();
+				if (name.toLowerCase().contentEquals("quit")) {
+					run = false;
+					break;
+				}
+				System.out.println("What kind of food does it serve?");
+				String food = kb.next();
+				System.out.println("How would you rate it?");
+				int rate = kb.nextInt();
+				trucks[numOfTrucks] = new FoodTruck(numOfTrucks, name, food, rate);
+				numOfTrucks++;
+			}
 		}
+
 	}
 
 	private void averageTrucks(FoodTruck[] trucks) {
-		// TODO Auto-generated method stub
 		double counter = 0;
 		double total = 0.0;
 		for (FoodTruck foodTruck : trucks) {
@@ -41,28 +50,48 @@ public class FoodTruckInfoApp {
 			}
 		}
 		total /= counter;
+		if(trucks[0] != null) {
 		System.out.println("The average rating of all entered trucks is " + total);
+		}
 
 	}
 
 	private void highestTruck(FoodTruck[] trucks) {
-		// TODO Auto-generated method stub
 		double highest = 0;
-		FoodTruck ultimate = new FoodTruck();
+		int counter = 0;
+		FoodTruck[] sorter = new FoodTruck[numOfTrucks];
+		FoodTruck[] ultimate = new FoodTruck[numOfTrucks];
 		for (FoodTruck foodTruck : trucks) {
 			if (foodTruck != null) {
-				if (highest < foodTruck.getRating()) {
+				if (highest <= foodTruck.getRating()) {
 					highest = foodTruck.getRating();
-					ultimate = foodTruck;
+					sorter[counter] = foodTruck;
+					counter++;
+					continue;
 				}
 			} else {
 				break;
 			}
 		}
-		if (ultimate != null) {
-			System.out.println("The highest rated truck is " + (ultimate.getTruckID() + 1) + ": " + ultimate.getName()
-					+ " serves " + ultimate.getFoodType() + " and has a rating of " + ultimate.getRating());
+		int reverseCounter = ultimate.length - 1;
+		for (FoodTruck foodTruck : sorter) {
+			if (foodTruck != null) {
+				if (highest <= foodTruck.getRating()) {
+					highest = foodTruck.getRating();
+					ultimate[reverseCounter] = foodTruck;
+					reverseCounter--;
+					continue;
+				}
+			} else {
+				break;
+			}
 		}
+		
+		if(ultimate.length > 0) {
+		System.out.println("The highest rated truck(s):");
+		listTrucks(ultimate);
+		}
+
 	}
 
 	private void listTrucks(FoodTruck[] trucks) {
@@ -76,27 +105,16 @@ public class FoodTruckInfoApp {
 	private void printMenu(Scanner kb, FoodTruck[] trucks) {
 		boolean run = true;
 		while (run) {
-			System.out.println("What would you like to do?");
-			System.out.println("1: Add trucks");
-			System.out.println("2: Average trucks");
-			System.out.println("3: Show highest scoring trucks");
-			System.out.println("4: Show all trucks");
-			System.out.println("5: Quit");
+			System.out.println("|  What would you like?         |");
+			System.out.println("|  1: Add trucks                |");
+			System.out.println("|  2: Average truck score       |");
+			System.out.println("|  3: Show highest rated trucks |");
+			System.out.println("|  4: Show all trucks           |");
+			System.out.println("|  5: Quit                      |");
 			int selection = kb.nextInt();
 			switch (selection) {
 			case 1:
-				boolean addAnother = true;
-				while (addAnother && numOfTrucks < 5) {
-					addTruck(kb, trucks);
-					System.out.println("Enter \"Quit\" to stop entering trucks, or \"Continue\" to add another.");
-					String quit = kb.next().toLowerCase();
-					if (quit.contentEquals("quit")) {
-						addAnother = false;
-					} else if (numOfTrucks >= 5) {
-						System.out.println("Max number of trucks entered!");
-						addAnother = false;
-					}
-				}
+				addTruck(kb, trucks);
 				break;
 			case 2:
 				averageTrucks(trucks);
@@ -110,10 +128,10 @@ public class FoodTruckInfoApp {
 			case 5:
 				run = false;
 				System.out.println("Ok fine, bye.");
-				System.out.println(numOfTrucks);
 				break;
 			default:
-				System.out.println("That wasn't a valid option. It's okay though, we all make happy little mistakes sometimes.");
+				System.out.println(
+						"That wasn't a valid option. It's okay though, we all make happy little mistakes sometimes.");
 			}
 
 		}
