@@ -51,7 +51,7 @@ public class FoodTruckInfoApp {
 		}
 		total /= counter;
 		if(trucks[0] != null) {
-		System.out.println("The average rating of all entered trucks is " + total);
+		System.out.printf("The average rating of all entered trucks is %.2f\n", total);
 		}
 
 	}
@@ -105,27 +105,29 @@ public class FoodTruckInfoApp {
 	private void printMenu(Scanner kb, FoodTruck[] trucks) {
 		boolean run = true;
 		while (run) {
-			System.out.println("|  What would you like?         |");
-			System.out.println("|  1: Add trucks                |");
-			System.out.println("|  2: Average truck score       |");
-			System.out.println("|  3: Show highest rated trucks |");
-			System.out.println("|  4: Show all trucks           |");
-			System.out.println("|  5: Quit                      |");
-			int selection = kb.nextInt();
+			System.out.println("==================================");
+			System.out.println("|     -What would you like?-     |");
+			System.out.println("|  1: Add trucks to the list     |");
+			System.out.println("|  2: Average truck score        |");
+			System.out.println("|  3: Show highest rated trucks  |");
+			System.out.println("|  4: Show all listed trucks     |");
+			System.out.println("|  5: Quit the application       |");
+			System.out.println("==================================");
+			String selection = kb.next();
 			switch (selection) {
-			case 1:
+			case "1":
 				addTruck(kb, trucks);
 				break;
-			case 2:
+			case "2":
 				averageTrucks(trucks);
 				break;
-			case 3:
+			case "3":
 				highestTruck(trucks);
 				break;
-			case 4:
+			case "4":
 				listTrucks(trucks);
 				break;
-			case 5:
+			case "5":
 				run = false;
 				System.out.println("Ok fine, bye.");
 				break;
