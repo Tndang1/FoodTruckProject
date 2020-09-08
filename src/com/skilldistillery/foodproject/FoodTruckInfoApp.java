@@ -33,7 +33,7 @@ public class FoodTruckInfoApp {
 				String food = kb.next();
 				System.out.println("How would you rate it?");
 				int rate = kb.nextInt();
-				trucks[numOfTrucks] = new FoodTruck(numOfTrucks, name, food, rate);
+				trucks[numOfTrucks] = new FoodTruck(name, food, rate);
 				numOfTrucks++;
 			}
 		}
@@ -51,7 +51,7 @@ public class FoodTruckInfoApp {
 		}
 		total /= counter;
 		if(trucks[0] != null) {
-		System.out.printf("The average rating of all entered trucks is %.2f\n", total);
+		System.out.printf("The average rating of all entered trucks is %.2f\n1", total);
 		}
 
 	}

@@ -1,17 +1,19 @@
 package com.skilldistillery.foodproject;
 
 public class FoodTruck {
-	private int truckID;
+	private static int truckCount;
 	private String foodType;
 	private double rating;
 	private String name;
+	private int truckID;
 	
 	
-	public FoodTruck(int truckID, String name, String foodType, double rating) {
-		this.truckID = truckID;
+	public FoodTruck(String name, String foodType, double rating) {
+		this.truckID = truckCount;
 		this.name = name;
 		this.foodType = foodType;
 		this.rating = rating;
+		truckCount++; 
 	}
 	
 	public FoodTruck() {
